@@ -3,7 +3,7 @@ name = "image_translation_exercise_2025"
 version = "0.1.0"
 description = "Image translation exercise packaged to include all dependencies"
 readme = "README.md"
-requires-python = ">3.0,<3.13"
+requires-python = ">3.10,<3.13"
 dependencies = [
     "iohub>=0.1.0",
     "ipykernel>=6.30.0",
@@ -16,9 +16,9 @@ dependencies = [
     "nbformat>=5.10.4",
     "pooch>=1.8.2",
     "ruff>=0.12.5",
-    # "viscy[metrics,visual]==0.2.0rc1",
+    "viscy[metrics,visual]==0.2.0rc1",
     "torchmetrics~=1.6.0",
-    "viscy[metrics,visual]>=0.2.1",
+    #"viscy[metrics,visual]>=0.2.1",
     "numcodecs<0.16",
 ]
 
