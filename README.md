@@ -86,7 +86,7 @@ For the two notebooks above jupyter and marimo, you may need to do some port-for
 
 ### Part 1
 
--   Refactored some visualisation (PCA/plotting) functions into their own script
+-   Refactored some visualisation (PCA/plotting) functions into their own script/module
 -   Made the plots PCAs of feature maps easier to explore for comparisons
 -   Wrapped it all up in a marimo notebook for interactive exploration of both checkpoints and datasets
 
