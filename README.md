@@ -60,6 +60,8 @@ If you are running things from scratch then you don't need to download any data.
 
 For the data/models I produced when running the exercise, they are available via [Zenodo](https://zenodo.org/records/16644293) and you can also download them manually. Note that the largest file contains the training logs too, I only have another tarall with those to make it faster to pull it for the interactive notebook.
 
+I also added a [precache](./image_translation/precache_datasets.py) script to cache things before hand. You can run it with `python image_translation/orecache_datasets.pyz`.
+
 ### Different parts of the exercise
 This is how you can run or deploy each notebook/script.
 
