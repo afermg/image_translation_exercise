@@ -20,6 +20,7 @@ dependencies = [
     "torchmetrics~=1.6.0",
     #"viscy[metrics,visual]>=0.2.1",
     "numcodecs<0.16",
+    "seaborn>=0.13.2",
 ]
 
 [dependency-groups]
