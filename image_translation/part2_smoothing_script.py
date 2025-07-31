@@ -68,6 +68,13 @@ def calculate_pearson_by_pairs(
     return coefficients
 
 
+# smooth using a small naive window for contiguous time points
+def moving_average(a, n=2, axis=0):
+    ret = np.cumsum(a, dtype=float, axis=axis)
+    ret[n:] = ret[n:] - ret[:-n]
+    return ret[n - 1 :] / n
+
+
 # Load image and model
 image_ts = load_ts(movie_path)
 model = load_model(pretrained_model_path)
@@ -99,13 +106,6 @@ frame_range = slice(5, 30)
 #     frame_range, :, 0, ymin : ymin + tile_size, xmin : xmin + tile_size
 # ]
 selected_tps = output[:, :, 0, :]
-
-
-# smooth using a small naive window for contiguous time points
-def moving_average(a, n=2, axis=0):
-    ret = np.cumsum(a, dtype=float, axis=axis)
-    ret[n:] = ret[n:] - ret[:-n]
-    return ret[n - 1 :] / n
 
 
 rolled_avg = np.stack([moving_average(selected_tps[:, i]) for i in range(2)], axis=1)

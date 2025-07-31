@@ -35,6 +35,9 @@ highlight, so we can test it out. (10 minutes or less)
 #### Pip
 Install a python venv (I built this on python 3.11, so I recommend that one). From within the Python venv install this as the following.
 ```bash
+# Create your venv however you want, I like this minimalism:
+# python -m venv .venv
+# source .venv/bin/activate
 pip install -e .
 ```
 
