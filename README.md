@@ -75,7 +75,7 @@ For the two notebooks above jupyter and marimo, you may need to do some port-for
 
 - Limited torchmetrics upper bound to 1.6, as torchmetric's introduced API changes that break `dice` for VisCy.
 - Use [uv](github.com/astral-sh/uv) to be able to fix dependencies, provides reliable reproducibility and it's blazing fast. Additionally, it uses pyproject and follows [PEP 631](https://peps.python.org/pep-0631/).
-- Bypassed bash script to pull data and checkpoints, instead I use [pooch](https://github.com/fatiando/pooch?tab=readme-ov-file#example) + a [registry](./registry_a549_virtual_staining) to download and cache the zarr files.
+- Bypassed bash script to pull data and checkpoints, instead I use [pooch](https://github.com/fatiando/pooch?tab=readme-ov-file#example) + a [registry](https://gist.githubusercontent.com/afermg/49bd30211a5c01ac2432edb13943ca3d/raw/fb629fd47040954ea1e9cedd798b9c9ed2ec5669/registry_a549_virtual_staining.txt) to download and cache the zarr files.
 - Added dependencies:
 - `pooch`: Download and cache files from within Python, it has never given me dependency issues.
 - `marimo`: Interactive and reactive notebooks. After one year of usage, it is IMO a superior solution for data analysis and exploration.
