@@ -1,20 +1,26 @@
 # Exercise progress
 
 ## Part 1
- - [x] Notebook visualizing feature maps of virtual staining models for phase -> fluorescence
- and fluorescence -> phase models.
- - [x] (BONUS) An interactive widget (napari, Jupyter widget, or anything else in Python) for
- visualizing feature maps for different inputs and different checkpoints.
- ## Part 2
- - [x] A script to improve the temporal regularization of virtually stained structures with an
- inference-time strategy.
- - [x] (BONUS) Inference CLI with naive baseline and your strategy for temporally smooth
+ - [x] Notebook visualizing feature maps of virtual staining models for phase -> fluorescence and fluorescence -> phase models.
+   - I ran the whole notebook, replacing TODO->DONE where I modified things.
+   - I still found it a bit challenging to interpret the feature maps in a significant way, but there may be other different ways to explore that.
+ 
+ - [x] (BONUS) An interactive widget (napari, Jupyter widget, or anything else in Python) for visualizing feature maps for different inputs and different checkpoints.
+   - I combined both tasks into the marimo notebook, as it is both a notebook and a widget.
+   - Given that I am using a 2D model, I also added a widget to select which z-stack to use, and used both test and train data as inputs.
+ 
+## Part 2
+ - [x] A script to improve the temporal regularization of virtually stained structures with an inference-time strategy.
+   - For a naive approach I used a smoothing window of length 2, which averages the pixel values over time at the cost of losing one image at the end.
+   - My strategy was to use a Savitzky-Golay filter, as they increase precision without distorting the signal (it doesn't try to touch every data point).
+   - I finally evaluated all the movies by using pearson correlation between pairs of adjacent time points, which shows that the Savitzky-Golay smooths the pixels over time more than the average window. Whether or not this is fully desirable for every experiment is an independent issue.
+ - [X] (BONUS) Inference CLI with naive baseline and your strategy for temporally smooth
  virtual staining.
-
+   - Because I 
 
 ## Finishing touches
-- [x] Now turn your exercise into a pip-installable package and share installation instructions
-with README to make it easier for us to reproduce your work.
+- [x] Now turn your exercise into a pip-installable package and share installation instructions with README to make it easier for us to reproduce your work.
+  - Since I was using `uv` this just required moving the scripts to a folder and including it in `pyproject.toml`
 - [x] Ensure the README.md contains all the details requested in each of the tasks and
 bonuses.
 - [x] Put the outputs of the tasks (Zarr stores) into a Cloud storage service (i.e Google Drive,
