@@ -1,0 +1,41 @@
+[project]
+name = "image_translation_exercise_2025"
+version = "0.1.0"
+description = "Image translation exercise packaged to include all dependencies"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+dependencies = [
+    "iohub>=0.1.0",
+    "ipykernel>=6.30.0",
+    "ipywidgets>=8.1.7",
+    "jupyter>=1.1.1",
+    "jupyterlab>=4.4.5",
+    "jupytext>=1.17.2",
+    "marimo>=0.14.14",
+    "nbconvert>=7.16.6",
+    "nbformat>=5.10.4",
+    "pooch>=1.8.2",
+    "ruff>=0.12.5",
+    # "viscy[metrics,visual]==0.2.0rc1",
+    "torchmetrics<=1.6.0",
+    "viscy[metrics,visual]>=0.2.1",
+]
+
+[dependency-groups]
+dev = [
+    "jupytext>=1.17.2",
+]
+
+[tool.hatch.build.targets.sdist]
+include = ["image_translation"]
+
+[tool.hatch.build.targets.wheel]
+include = ["image_translation"]
+
+[tool.hatch.build.targets.wheel.sources]
+"image_translation" = "image_translation"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+

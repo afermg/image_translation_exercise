@@ -1,92 +1,114 @@
-# Exercise 6: Image translation - Part 1
+# Exercise progress
 
-Written by Eduardo Hirata-Miyasaki, Ziwen Liu, and Shalin Mehta, CZ Biohub San Francisco with many inputs from Diane Adjavon for the DL@MBL2024 course
-
-## Overview
-
-In this exercise, we will _virtually stain_ the nuclei and plasma membrane from the quantitative phase image (QPI), i.e., translate QPI images into fluoresence images of nuclei and plasma membranes.
-QPI encodes multiple cellular structures and virtual staining decomposes these structures. After the model is trained, one only needs to acquire label-free QPI data.
-This strategy solves the problem as "multi-spectral imaging", but is more compatible with live cell imaging and high-throughput screening.
-Virtual staining is often a step towards multiple downstream analyses: segmentation, tracking, and cell state phenotyping.
-
-In this exercise, you will:
-- Train a model to predict the fluorescence images of nuclei and plasma membranes from QPI images
-- Make it robust to variations in imaging conditions using data augmentions
-- Segment the cells
-- Use regression and segmentation metrics to evalute the models
-- Visualize the image transform learned by the model
-- Understand the failure modes of the trained model
-
-[![HEK293T](https://raw.githubusercontent.com/mehta-lab/VisCy/main/docs/figures/svideo_1.png)](https://github.com/mehta-lab/VisCy/assets/67518483/d53a81eb-eb37-44f3-b522-8bd7bddc7755)
-(Click on image to play video)
-
-### Goals
-
-#### Part 1: Train a virtual staining model
-
-  - Explore OME-Zarr using [iohub](https://czbiohub-sf.github.io/iohub/main/index.html)
-  and the high-content-screen (HCS) format.
-  - Use our `viscy.data.HCSDataloader()` dataloader and explore the  3 channel (phase, fluoresecence nuclei and cell membrane) 
-  A549 cell dataset. 
-  - Implement data augmentations [MONAI](https://monai.io/) to train a robust model to imaging parameters and conditions. 
-  - Use tensorboard to log the augmentations, training and validation losses and batches
-  - Start the training of the UNeXt2 model to predict nuclei and membrane from phase images.
-
-#### Part 2:Evaluate the model to translate phase into fluorescence.
-  - Compare the performance of your trained model with the _VSCyto2D_ pre-trained model.
-  - Evaluate the model using pixel-level and instance-level metrics.
-
-#### Part 3: Visualize the image transforms learned by the model and explore the model's regime of validity
-  - Visualize the first 3 principal componets mapped to a color space in each encoder and decoder block.
-  - Explore the model's regime of validity by applying blurring and scaling transforms to the input phase image.
-
-#### For more information:
-Checkout [VisCy](https://github.com/mehta-lab/VisCy),
-our deep learning pipeline for training and deploying computer vision models
-for image-based phenotyping including the robust virtual staining of landmark organelles.
-
-VisCy exploits recent advances in data and metadata formats
-([OME-zarr](https://www.nature.com/articles/s41592-021-01326-w)) and DL frameworks,
-[PyTorch Lightning](https://lightning.ai/) and [MONAI](https://monai.io/).
+## Part 1
+ - [x] Notebook visualizing feature maps of virtual staining models for phase -> fluorescence
+ and fluorescence -> phase models.
+ - [x] (BONUS) An interactive widget (napari, Jupyter widget, or anything else in Python) for
+ visualizing feature maps for different inputs and different checkpoints.
+ ## Part 2
+ - [x] A script to improve the temporal regularization of virtually stained structures with an
+ inference-time strategy.
+ - [x] (BONUS) Inference CLI with naive baseline and your strategy for temporally smooth
+ virtual staining.
 
 
-## Setup
+## Finishing touches
+- [x] Now turn your exercise into a pip-installable package and share installation instructions
+with README to make it easier for us to reproduce your work.
+- [x] Ensure the README.md contains all the details requested in each of the tasks and
+bonuses.
+- [x] Put the outputs of the tasks (Zarr stores) into a Cloud storage service (i.e Google Drive,
+iCloud, etc) and share them with us.
+- [ ] Please record yourself explaining how you came about each task and bonuses,
+problems you encountered while developing this, and anything you would like to
+highlight, so we can test it out. (10 minutes or less)
 
-Make sure that you are inside of the `image_translation` folder by using the `cd` command to change directories if needed.
+## How to reproduce
 
-Run the setup script to create the environment for this exercise and download the dataset.
+### Set up environment
+#### Pip
+Install a python venv (I built this on python 3.11, so I recommend that one). From within the Python venv install this as the following.
 ```bash
-sh setup_student.sh
-
+pip install -e .
 ```
-Activate your environment
+
+#### uv
+This is the fastest method, install [uv](https://github.com/astral-sh/uv?tab=readme-ov-file#installation) and run the following line
 ```bash
-conda activate 06_image_translation
+uv sync
 ```
 
-## Use vscode
+#### Nix
+If by some miracle you have a [NixOS](https://nixos.org/) or Linux+Nix installation, you can use this
 
-Install vscode, install jupyter extension inside vscode, and setup [cell mode](https://code.visualstudio.com/docs/python/jupyter-support-py). Open [exercise.py](exercise.py) and run the script interactively.
-
-## Use Jupyter Notebook / Lab
-
-The matching exercise and solution notebooks can be found [here](https://github.com/dlmbl/image_translation/tree/28e0e515b4a8ad3f392a69c8341e105f730d204f) on the course repository.
-
-Launch a jupyter lab environment
-
+```bash
+nix develop . --impure
 ```
-jupyter lab
+which should install all dependencies (CUDA included).
+
+### Data download
+If you are running things from scratch then you don't need to download any data. The data will be downloaded and cached when you need it.
+
+For the data/models I produced when running the exercise, they are available via [Zenodo](https://zenodo.org/records/16626960) and you can also download them manually. Note that the largest file contains the training logs too, I only have another tarall with those to make it faster to pull it for the interactive notebook.
+
+### Different parts of the exercise
+This is how you can run or deploy each notebook/script.
+
+- Original exercise (jupyter notebook): `jupyter lab ./exercise.ipynb`.
+- Part 1 (marimo notebook): `marimo edit ./image_translation/part1_inspection_widget.py --no-auth`. I combined both the script and the (bonus) widget using marimo. 
+- This file requires some of the training outputs of the first notebook, which you can get from Zenodo automatically, or you can download it manually from here.
+
+For the two notebooks above jupyter and marimo, you may need to do some port-forwarding (`ssh -fNL $PORT:localhost:$PORT $USER@$SERVER), where $PORT is provided by marimo or jupyter, whereas $USER, and $SERVER depend are the info with which you ssh into the machine.
+
+- Part 2 (script): `python ./image_translation/part2_smoothing_script.py`. This will generate a `./data/figs/` folder with a couple of figures that show smoothing via images and correlation plots.
+- Part 2 (cli tool): Something like `python python ./image_translation/part2_smoothing_cli.py -c data/06_image_translation/logs/phase2fluor/version_0/checkpoints/epoch=79-step=1680.ckpt -m a549_virtual_staining.ome.zarr/ -o output_dir`
+
+## Notes on changes
+
+### General changes to the original exercise
+
+-   Limited torchmetrics upper bound to 1.6, as torchmetric's introduced API changes that break `dice` for VisCy.
+-   Use [uv](github.com/astral-sh/uv) to be able to fix dependencies, provides reliable reproducibility and it's blazing fast. Additionally, it uses pyproject and follows [PEP 631](https://peps.python.org/pep-0631/).
+-   Bypassed bash script to pull data and checkpoints, instead I use [pooch](https://github.com/fatiando/pooch?tab=readme-ov-file#example) + a [registry](./registry_a549_virtual_staining) to download and cache the zarr files.
+-   Added dependencies:
+-   `pooch`: Download and cache files from within Python, it has never given me dependency issues.
+-   `marimo`: Interactive and reactive notebooks. After one year of usage, it is IMO a superior solution for data analysis and exploration.
+-   Removed dependencies:
+- `wget`: `wget` is perfect, but it's nice to pull, cache and validate files within python for full reproducibility.
+- `conda`: In general I find it slow, and since most cuda dependencies are pip installable now that it makes sense to use alternative tools for venv management.
+
+-   Added support for NixOS, as that is the servers that we use to achieve full reproducibility (it's irrelevant for most people, unless you use/know about Nix).
+
+### Part 1
+
+-   Refactored some visualisation (PCA/plotting) functions into their own script
+-   Made the plots PCAs of feature maps easier to explore for comparisons
+-   Wrapped it all up in a marimo notebook for interactive exploration of both checkpoints and datasets
+
+### Part 2
+
+- I had to pad the last dimensions of the movie, as they did not match the model's shape
+- For the last item of part two, I used an average window (which reduced the number of images by one) as a baseline and I aimed to improve on it by using a Savitzky-Golay filter. The upside is that it is more regular, the downside is that it is more blurry.
+- I also used Pearson correlation to evaluate whether or not there was a difference
+- I use threading to speed up the download of the movie, this may lead to some rare race conditions, but were this to happen it just requires to be run again and it should download things smoothly.
+
+## Maintainance/Development
+To make it easier to use scripts that depend on my results I used my `upload_zenodo.sh` and `meta.json` files to upload the tar gz to zenodo. For my own future self, the way to reproduce all results and upload the outputs to zenodo is:
+
+```sh
+# Run exercise.ipynb (you could use jupytext or run it from the command line as-is right now)
+# It should produce a bunch of files under data/06_image_translation
+# For exploration
+marimo edit image_translation/part1_inspection_widget.py --no-token
+# Save the smoothing figures (not the cli, uses remote files)
+python image_translation/part2_smoothing_script.py
+# CLI equivalent
+#python part2_smoothing_cli.py -c data/06_image_translation/logs/phase2fluor/version_0/checkpoints/epoch=79-step=1680.ckpt -m a549_virtual_staining.ome.zarr/ -o data/smooth_movies`
+# Compress outputs
+# tar cvf output_training_logs.tar.gz data/06_image_translation/logs/phase2fluor/
+# tar cvf image_translation_exercise_outputs.tar.gz data/
+# Upload section
+# export ZENODO_TOKEN="XXXXXXXXXXXXXXXx"
+# bash zenodo_upload
 ```
 
-...and continue with the instructions in the notebook.
-
-If `06_image_translation` is not available as a kernel in jupyter, run:
-
-```
-python -m ipykernel install --user --name=06_image_translation
-```
-
-### References
-
-- [Liu, Z. and Hirata-Miyasaki, E. et al. (2024) Robust Virtual Staining of Cellular Landmarks](https://www.biorxiv.org/content/10.1101/2024.05.31.596901v2.full.pdf)
-- [Guo et al. (2020) Revealing architectural order with quantitative label-free imaging and deep learning. eLife](https://elifesciences.org/articles/55502)
