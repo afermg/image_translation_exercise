@@ -55,7 +55,7 @@ which should install all dependencies (CUDA included).
 ### Data download
 If you are running things from scratch then you don't need to download any data. The data will be downloaded and cached when you need it.
 
-For the data/models I produced when running the exercise, they are available via [Zenodo](https://zenodo.org/records/16626960) and you can also download them manually. Note that the largest file contains the training logs too, I only have another tarall with those to make it faster to pull it for the interactive notebook.
+For the data/models I produced when running the exercise, they are available via [Zenodo](https://zenodo.org/records/16644293) and you can also download them manually. Note that the largest file contains the training logs too, I only have another tarall with those to make it faster to pull it for the interactive notebook.
 
 ### Different parts of the exercise
 This is how you can run or deploy each notebook/script.
