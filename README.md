@@ -1,4 +1,4 @@
-# Exercise progress
+# Exercise details
 
 ## Part 1
  - [x] Notebook visualizing feature maps of virtual staining models for phase -> fluorescence and fluorescence -> phase models.
@@ -73,17 +73,16 @@ For the two notebooks above jupyter and marimo, you may need to do some port-for
 
 ### General changes to the original exercise
 
--   Limited torchmetrics upper bound to 1.6, as torchmetric's introduced API changes that break `dice` for VisCy.
--   Use [uv](github.com/astral-sh/uv) to be able to fix dependencies, provides reliable reproducibility and it's blazing fast. Additionally, it uses pyproject and follows [PEP 631](https://peps.python.org/pep-0631/).
--   Bypassed bash script to pull data and checkpoints, instead I use [pooch](https://github.com/fatiando/pooch?tab=readme-ov-file#example) + a [registry](./registry_a549_virtual_staining) to download and cache the zarr files.
--   Added dependencies:
--   `pooch`: Download and cache files from within Python, it has never given me dependency issues.
--   `marimo`: Interactive and reactive notebooks. After one year of usage, it is IMO a superior solution for data analysis and exploration.
--   Removed dependencies:
-- `wget`: `wget` is perfect, but it's nice to pull, cache and validate files within python for full reproducibility.
-- `conda`: In general I find it slow, and since most cuda dependencies are pip installable now that it makes sense to use alternative tools for venv management.
-
--   Added support for NixOS, as that is the servers that we use to achieve full reproducibility (it's irrelevant for most people, unless you use/know about Nix).
+- Limited torchmetrics upper bound to 1.6, as torchmetric's introduced API changes that break `dice` for VisCy.
+- Use [uv](github.com/astral-sh/uv) to be able to fix dependencies, provides reliable reproducibility and it's blazing fast. Additionally, it uses pyproject and follows [PEP 631](https://peps.python.org/pep-0631/).
+- Bypassed bash script to pull data and checkpoints, instead I use [pooch](https://github.com/fatiando/pooch?tab=readme-ov-file#example) + a [registry](./registry_a549_virtual_staining) to download and cache the zarr files.
+- Added dependencies:
+- `pooch`: Download and cache files from within Python, it has never given me dependency issues.
+- `marimo`: Interactive and reactive notebooks. After one year of usage, it is IMO a superior solution for data analysis and exploration.
+- Removed dependencies:
+  - `wget`: `wget` is perfect, but it's nice to pull, cache and validate files within python for full reproducibility.
+  - `conda`: In general I find it slow, and since most cuda dependencies are pip installable now that it makes sense to use alternative tools for venv management.
+- Added support for NixOS, as that is the servers that we use to achieve full reproducibility (it's irrelevant for most people, unless you use/know about Nix).
 
 ### Part 1
 
